@@ -19,10 +19,10 @@ jobs:
           wget https://raw.githubusercontent.com/eweOS/workflow-test/packages/result.json -O ~/.cache/archversion/packages.cache
       - name: Check for updates (all)
         if: ${{ github.event.inputs.package == '' }}
-        run: archversion check
+        run: eweversion check
       - name: Check for updates (single)
         if: ${{ github.event.inputs.package != '' }}
-        run: archversion check ${{ github.event.inputs.package }}
+        run: eweversion check ${{ github.event.inputs.package }}
       - name: Collect result
         run: |
           mkdir -p ~/checkresult
