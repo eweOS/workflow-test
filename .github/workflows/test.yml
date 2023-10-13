@@ -10,10 +10,17 @@ jobs:
       image: ghcr.io/eweos/docker:master
     steps:
       - name: Install archversion
-        run: pacman -Sy && pacman -S --noconfirm archversion wget && pip install pyxdg
+        run: pacman -Sy && pacman -S --noconfirm archversion wget rsync && pip install pyxdg
       - name: Fetch package check rules
-        run: mkdir -p ~/.config/archversion && touch ~/.cache/archversion/packages.cache && \
+        run: mkdir -p ~/.config/archversion && \
           wget https://gist.githubusercontent.com/YukariChiba/3ec2207ad5cbfef2a3b7e4587eb66cd2/raw/d84e522efb1b6c0de7b885635240f549a62c6760/updater.ini \
           -O ~/.config/archversion/packages.conf
       - name: Check for updates (demo)
         run: archversion check pacman
+      - name: Collect result
+        run: mkdir -p ~/checkresult ~/.cache/archversion && touch ~/.cache/archversion/packages.cache && cp ~/.cache/archversion/packages.cache ~/checkresult/result.json
+      - name: Deploy Cache
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: packages
+          folder: ~/checkresult
