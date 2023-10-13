@@ -20,7 +20,7 @@ jobs:
       - name: Build Package
         run: |
           cd build
-          makepkg -s
+          makepkg -s --noconfirm
       - name: List Results
         run: |
           ls -l
