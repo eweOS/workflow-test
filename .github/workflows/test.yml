@@ -26,7 +26,7 @@ jobs:
           touch ~/.cache/archversion/packages.cache
           cp ~/.cache/archversion/packages.cache ~/checkresult/result.json
       - name: Deploy Cache
-        uses: JamesIves/github-pages-deploy-action@4.4.3
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: packages
           folder: ~/checkresult
