@@ -1,0 +1,26 @@
+name: Build Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        required: true
+        description: 'package to build'
+
+jobs:
+  buildpackage:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/eweos/docker:buildenv
+    steps:
+      - name: Git Checkout
+        run: |
+          mkdir -p build
+          git clone https://github.com/eweOS/packages --single-branch -b ${{ github.event.inputs.package }} build
+      - name: Build Package
+        run: |
+          cd build
+          makepkg -s
+      - name: List Results
+        run: |
+          ls -l
