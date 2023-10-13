@@ -1,0 +1,15 @@
+name: Test Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/eweos/docker
+    steps:
+      - name: echo
+        run: echo "Hello!"
+      - name: list installed packages
+        run: pacman -Q
