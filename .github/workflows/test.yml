@@ -27,6 +27,11 @@ jobs:
       - name: Check for updates (single)
         if: ${{ github.event.inputs.package != '' }}
         run: archversion check ${{ github.event.inputs.package }}
+      - name: Cache
+        uses: actions/cache@v3.3.2
+        with:
+          path: /
+          key: cachekey
       - name: Collect result
         run: |
           mkdir -p ~/checkresult ~/.cache/archversion
