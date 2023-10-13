@@ -25,8 +25,13 @@ jobs:
           mkdir -p ~/checkresult ~/.cache/archversion
           touch ~/.cache/archversion/packages.cache
           cp ~/.cache/archversion/packages.cache ~/checkresult/result.json
-      - name: Deploy Cache
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: packages
-          folder: ~/checkresult
+      - name: Deploy result
+        run: |
+          cd ~/checkresult
+          git init
+          git config --global user.name 'eweOS Update Checker'
+          git config --global user.email 'nobody.noreply@ewe.moe'
+          git add result.json
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/eweOS/workflow-test
+          git commit -m "Update package list"
+          git push HEAD:packages -f
