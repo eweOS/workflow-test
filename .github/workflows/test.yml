@@ -7,7 +7,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/eweos/docker
+      image: ghcr.io/eweos/docker:master
     steps:
       - name: echo
         run: echo "Hello!"
