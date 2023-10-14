@@ -1,5 +1,5 @@
 FROM --platform=$BUILDPLATFORM alpine:latest AS builder
-ARG TARGETARCH
+ARG TARGETPLATFORM
 
 RUN mkdir -p /rootfs
 WORKDIR /
