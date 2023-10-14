@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: eweOS/packages
-          ref: github.event.inputs.package
+          ref: ${{ github.event.inputs.package }}
         
       - name: Run in Docker
         run: |
