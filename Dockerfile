@@ -1,10 +1,10 @@
-FROM alpine:latest AS builder
+FROM --platform=$BUILDPLATFORM alpine:latest AS builder
 ARG TARGETARCH
 
 RUN mkdir -p /rootfs
 WORKDIR /
 RUN apk add wget
-RUN case ${TARGETARCH} in \
+RUN case ${TARGETPLATFORM} in \
             "amd64")  DOWNARCH=x86_64  ;; \
             "arm64")  DOWNARCH=aarch64  ;; \
     esac && \
