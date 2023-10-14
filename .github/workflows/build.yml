@@ -13,8 +13,6 @@ jobs:
       matrix:
         arch: [amd64,arm64]
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/eweos/docker:buildenv
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
