@@ -9,18 +9,28 @@ on:
 
 jobs:
   buildpackage:
+    strategy:
+      matrix:
+        arch: [amd64,arm64]
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/eweos/docker:buildenv
     steps:
-      - name: Git Checkout
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        with:
+          platforms: ${{ matrix.arch }}
+      - uses: actions/checkout@v3
+        with:
+          repository: eweOS/packages
+          ref: github.event.inputs.package
+        
+      - name: Run in Docker
         run: |
-          mkdir -p build
-          git clone https://github.com/eweOS/packages --single-branch -b ${{ github.event.inputs.package }} build
-      - name: Build Package
-        run: |
-          cd build
-          makepkg -s --noconfirm
-      - name: List Results
-        run: |
-          ls -l
+          docker run \
+            --rm \
+            -v $(pwd):/${{ github.workspace }} \
+            -w ${{ github.workspace }} \
+            --platform linux/${{ matrix.arch }} \
+            ghcr.io/eweos/docker:buildenv \
+            makepkg -s --noconfirm
