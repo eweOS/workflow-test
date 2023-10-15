@@ -1,0 +1,24 @@
+name: Check PKGBUILD using namcap
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'package to check'
+
+jobs:
+  namcapcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: eweOS/packages
+          ref: ${{ github.event.inputs.package }}
+      - name: Run namcap
+        run: |
+          docker run \
+            --rm \
+            -v $(pwd):/${{ github.workspace }} \
+            -w ${{ github.workspace }} \
+            archlinux:latest \
+            bash -c "pacman -Syu --noconfirm --needed namcap && namcap ./PKGBUILD"
