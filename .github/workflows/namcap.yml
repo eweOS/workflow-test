@@ -21,4 +21,4 @@ jobs:
             -v $(pwd):/${{ github.workspace }} \
             -w ${{ github.workspace }} \
             archlinux:latest \
-            bash -c "pacman -Syu --noconfirm --needed namcap && namcap ./PKGBUILD"
+            bash -c "pacman -Syu --noconfirm --needed namcap && namcap ./PKGBUILD | tee namcap.log && set -euo pipefail && grep -vz ' E: '"
