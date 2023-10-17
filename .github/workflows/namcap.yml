@@ -22,8 +22,8 @@ jobs:
           -w ${{ github.workspace }}
           archlinux:latest
           bash -c "
-          pacman -Sy --noconfirm namcap || true &&
-          namcap ./PKGBUILD 2>&1 | tee namcap.log &&
+          pacman -Sy --noconfirm namcap &&
+          namcap ./PKGBUILD 2>&1 | tee namcap.log || true &&
           set -euo pipefail &&
           grep -vz ' E: ' namcap.log
           "
