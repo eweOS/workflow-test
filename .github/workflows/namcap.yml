@@ -15,10 +15,15 @@ jobs:
           repository: eweOS/packages
           ref: ${{ github.event.inputs.package }}
       - name: Run namcap
-        run: |
-          docker run \
-            --rm \
-            -v $(pwd):/${{ github.workspace }} \
-            -w ${{ github.workspace }} \
-            archlinux:latest \
-            bash -c "pacman -Syu --noconfirm --needed namcap && namcap ./PKGBUILD | tee namcap.log && set -euo pipefail && grep -vz ' E: '"
+        run: >-
+          docker run
+          --rm
+          -v $(pwd):/${{ github.workspace }}
+          -w ${{ github.workspace }}
+          archlinux:latest
+          bash -c "
+          pacman -Sy --noconfirm namcap &&
+          namcap ./PKGBUILD 2>&1 | tee namcap.log &&
+          set -euo pipefail &&
+          grep -vz ' E: ' namcap.log
+          "
